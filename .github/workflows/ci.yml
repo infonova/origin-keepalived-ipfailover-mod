@@ -17,4 +17,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
         repository: infonova/origin-keepalived-ipfailover
-        tags: ${{ github.base_ref }}
+        tags: ${{ github.head_ref }}
