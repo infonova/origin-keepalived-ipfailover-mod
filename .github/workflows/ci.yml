@@ -11,6 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: ShellCheck
+      uses: ludeeus/action-shellcheck@0.3.0
+      with:
+       severity: error
+
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
       with:
