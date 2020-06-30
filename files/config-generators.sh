@@ -51,6 +51,14 @@ function generate_script_config() {
     fi
   fi
 
+  if [[ -n "${HA_CHECK_SCRIPT_RISE}" ]]; then
+    echo "   rise ${HA_CHECK_SCRIPT_RISE}"
+  fi
+
+  if [[ -n "${HA_CHECK_SCRIPT_FALL}" ]]; then
+    echo "   fall ${HA_CHECK_SCRIPT_FALL}"
+  fi
+
   echo "   interval ${CHECK_INTERVAL_SECS}"
   echo "}"
 }
