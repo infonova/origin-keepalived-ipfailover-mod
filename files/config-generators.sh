@@ -59,6 +59,10 @@ function generate_script_config() {
     echo "   fall ${HA_CHECK_SCRIPT_FALL}"
   fi
 
+  if [[ -n "${HA_CHECK_SCRIPT_TIMEOUT}" ]]; then
+    echo "   timeout ${HA_CHECK_SCRIPT_TIMEOUT}"
+  fi
+
   echo "   interval ${CHECK_INTERVAL_SECS}"
   echo "}"
 }
