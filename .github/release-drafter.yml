@@ -1,5 +1,5 @@
-name-template: 'v$RESOLVED_VERSION'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: 'v$NEXT_MAJOR_VERSION'
+tag-template: 'v$NEXT_MAJOR_VERSION'
 version-template: '3.11.0-bearingpoint-$MAJOR'
 categories:
   - title: '🚀 Features'
@@ -11,8 +11,6 @@ categories:
   - title: '🧰 Maintenance'
     label: 'chore'
 change-template: '* $TITLE @$AUTHOR (#$NUMBER)'
-version-resolver:
-  default: major
 template: |
   ## Changes
 
