@@ -1,0 +1,19 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+version-template: '3.11.0-bearingpoint-$MAJOR'
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: '🧰 Maintenance'
+    label: 'chore'
+change-template: '* $TITLE @$AUTHOR (#$NUMBER)'
+version-resolver:
+  default: major
+template: |
+  ## Changes
+
+  $CHANGES
