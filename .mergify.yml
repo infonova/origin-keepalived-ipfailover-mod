@@ -1,0 +1,42 @@
+pull_request_rules:
+  - name: "Label PR as chore"
+    conditions:
+      - head~=^(chore|ci)
+    actions:
+      label:
+        add:
+          - chore
+
+  - name: "Label PR as feature"
+    conditions:
+      - head~=^feature
+    actions:
+      label:
+        add:
+          - feature
+
+  - name: "Label PR as bug"
+    conditions:
+      - head~=^bug
+    actions:
+      label:
+        add:
+          - bug
+
+  - name: "Label PR as doc"
+    conditions:
+      - head~=^doc
+    actions:
+      label:
+        add:
+          - doc
+
+  - name: "Automatic merge to master"
+    conditions:
+      - base=master
+      - label!=WIP
+      - label=merge
+      - status-success=build
+    actions:
+      merge:
+        method: rebase
