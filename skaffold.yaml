@@ -5,15 +5,8 @@ metadata:
 build:
   artifacts:
   - image: infonova/origin-keepalived-ipfailover
-    # docker:
-    #  dockerfile: Dockerfile
-    custom:
-      buildCommand: hack/bin/build.sh
-      dependencies:
-        paths:
-        - hack/templates/**
-        - files/**
-        - Dockerfile
+    docker:
+      dockerfile: Dockerfile
 test:
   - image: infonova/origin-keepalived-ipfailover
     custom:

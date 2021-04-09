@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-GIT_ROOT_DIR="$(git rev-parse --show-toplevel)"
-BUILD_DIR="${GIT_ROOT_DIR}/build"
-MANIFEST_OUTPUT="${BUILD_DIR}/manifests/ipfailover.yaml"
-MANIFEST_TEMPLATE="${GIT_ROOT_DIR}/hack/templates/manifests/ipfailover.yaml"
+. ./hack/bin/variables.sh
 
 # TODO(sprietl):
 #   Move building the manifest to skaffold buildstep if possible, to let skaffold update the deployment
