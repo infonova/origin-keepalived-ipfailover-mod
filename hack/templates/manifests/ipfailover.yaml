@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipfailover
+spec:
+  clusterIP: None
+  selector:
+    app: ipfailover
+  ports:
+  - name: keepalived
+    port: 63000
+    protocol: TCP
+    targetPort: keepalived
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ipfailover
+spec:
+  selector:
+    matchLabels:
+      app: ipfailover
+  serviceName: ipfailover
+  replicas: ${NODE_COUNT}
+  template:
+    metadata:
+      labels:
+        app: ipfailover
+    spec:
+      containers:
+      - name: ipfailover-keepalived
+        env:
+        - name: OPENSHIFT_HA_NODE_ID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: OPENSHIFT_HA_CHECK_INTERVAL
+          value: "5"
+        - name: OPENSHIFT_HA_CHECK_SCRIPT
+          value: /usr/bin/curl --insecure https://localhost:6443/healthz/ready
+        - name: HA_CHECK_SCRIPT_RISE
+          value: "5"
+        - name: HA_CHECK_SCRIPT_FALL
+          value: "5"
+        - name: HA_CHECK_SCRIPT_TIMEOUT
+          value: "10"
+        - name: OPENSHIFT_HA_CONFIG_NAME
+          value: ipfailover
+        - name: OPENSHIFT_HA_IPTABLES_CHAIN
+          value: INPUT
+        - name: OPENSHIFT_HA_MONITOR_PORT
+          value: "6443"
+        - name: OPENSHIFT_HA_NETWORK_INTERFACE
+        - name: OPENSHIFT_HA_NOTIFY_SCRIPT
+        - name: OPENSHIFT_HA_PREEMPTION
+          value: preempt_delay 300
+        - name: OPENSHIFT_HA_REPLICA_COUNT
+          value: "${NODE_COUNT}"
+        - name: OPENSHIFT_HA_USE_UNICAST
+          value: "false"
+        - name: OPENSHIFT_HA_VIP_GROUPS
+          value: "0"
+        - name: OPENSHIFT_HA_VIRTUAL_IPS
+          value: "${NODE_IPS}"
+        - name: OPENSHIFT_HA_VRRP_ID_OFFSET
+          value: "0"
+        - name: KEEPALIVED_EXPORTER_OPTIONS
+          value: --web.listen-address :62650
+        image: infonova/origin-keepalived-ipfailover:v3.11.0-bearingpoint-4
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl http://localhost:62650/metrics 2>/dev/null -q | grep "keepalived_up
+              1"
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 63000
+          hostPort: 63000
+          name: keepalived
+          protocol: TCP
+        - containerPort: 62650
+          hostPort: 62650
+          name: exporter
+          protocol: TCP
+        securityContext:
+          privileged: true
+      hostNetwork: true
+      restartPolicy: Always

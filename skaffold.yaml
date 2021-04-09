@@ -1,0 +1,28 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: origin-keepalived-ipfailover-mod
+build:
+  artifacts:
+  - image: infonova/origin-keepalived-ipfailover
+    # docker:
+    #  dockerfile: Dockerfile
+    custom:
+      buildCommand: hack/bin/build.sh
+      dependencies:
+        paths:
+        - hack/templates/**
+        - files/**
+        - Dockerfile
+test:
+  - image: infonova/origin-keepalived-ipfailover
+    custom:
+    - command: ./tests/test.sh
+      timeoutSeconds: 60
+      dependencies:
+        paths:
+        - "tests/**"
+deploy:
+  kubectl:
+    manifests:
+    - build/manifests/ipfailover.yaml
