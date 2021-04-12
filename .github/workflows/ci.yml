@@ -16,10 +16,29 @@ jobs:
       with:
        severity: error
 
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
-        repository: infonova/origin-keepalived-ipfailover
-        tags: ${{ github.head_ref }}
+    # - name: Build and push Docker images
+    #  uses: docker/build-push-action@v1
+    #  with:
+    #    username: ${{ secrets.DOCKER_USERNAME }}
+    #    password: ${{ secrets.DOCKER_TOKEN }}
+    #    repository: infonova/origin-keepalived-ipfailover
+    #    tags: ${{ github.head_ref }}
+
+    # build container image
+    # if != tag
+
+    # pull image
+    # if == tag
+
+    # bootstrap kubernetes cluster (kind)
+
+    # deploy container image
+
+    # test if keepalived works
+
+    # push image
+    # if != tag
+
+    # promote existing image
+    # if == tag
+
