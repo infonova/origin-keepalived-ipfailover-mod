@@ -4,16 +4,16 @@
 
 # TODO(sprietl):
 #   Move building the manifest to skaffold buildstep if possible, to let skaffold update the deployment
-NODE_COUNT=0
+OPENSHIFT_HA_REPLICA_COUNT=0
 for ip in $(kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}'); do
   # TODO(sprietl): generate ips based on docker network used?
-  NODE_IPS="${ip}0,${NODE_IPS}"
-  ((NODE_COUNT++))
+  OPENSHIFT_HA_VIRTUAL_IPS="${ip}0,${OPENSHIFT_HA_VIRTUAL_IPS}"
+  ((OPENSHIFT_HA_REPLICA_COUNT++))
 done
 
-export NODE_COUNT
-export NODE_IPS
+export OPENSHIFT_HA_REPLICA_COUNT
+export OPENSHIFT_HA_VIRTUAL_IPS
 
 # create manifest from template
-mkdir -p "$(dirname "${MANIFEST_OUTPUT}")"
-envsubst < "${MANIFEST_TEMPLATE}" > "${MANIFEST_OUTPUT}"
+# mkdir -p "$(dirname "${MANIFEST_OUTPUT}")"
+# envsubst < "${MANIFEST_TEMPLATE}" > "${MANIFEST_OUTPUT}"

@@ -7,15 +7,13 @@ build:
   - image: infonova/origin-keepalived-ipfailover
     docker:
       dockerfile: Dockerfile
-test:
-  - image: infonova/origin-keepalived-ipfailover
-    custom:
-    - command: ./tests/test.sh
-      timeoutSeconds: 60
-      dependencies:
-        paths:
-        - "tests/**"
 deploy:
-  kubectl:
-    manifests:
-    - build/manifests/ipfailover.yaml
+  kustomize:
+    paths:
+    - .
+profiles:
+- name: base
+  deploy:
+    kustomize:
+      paths:
+      - manifests/base

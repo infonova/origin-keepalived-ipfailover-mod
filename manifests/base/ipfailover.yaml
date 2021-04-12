@@ -21,7 +21,7 @@ spec:
     matchLabels:
       app: ipfailover
   serviceName: ipfailover
-  replicas: ${NODE_COUNT}
+  replicas: 1
   template:
     metadata:
       labels:
@@ -56,13 +56,19 @@ spec:
         - name: OPENSHIFT_HA_PREEMPTION
           value: preempt_delay 300
         - name: OPENSHIFT_HA_REPLICA_COUNT
-          value: "${NODE_COUNT}"
+          valueFrom:
+            configMapKeyRef:
+              name: ipfailover-config
+              key: OPENSHIFT_HA_REPLICA_COUNT
         - name: OPENSHIFT_HA_USE_UNICAST
           value: "false"
         - name: OPENSHIFT_HA_VIP_GROUPS
           value: "0"
         - name: OPENSHIFT_HA_VIRTUAL_IPS
-          value: "${NODE_IPS}"
+          valueFrom:
+            configMapKeyRef:
+              name: ipfailover-config
+              key: OPENSHIFT_HA_VIRTUAL_IPS
         - name: OPENSHIFT_HA_VRRP_ID_OFFSET
           value: "0"
         - name: KEEPALIVED_EXPORTER_OPTIONS
