@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: origin-keepalived-ipfailover-mod
+build:
+  artifacts:
+  - image: infonova/origin-keepalived-ipfailover
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kustomize:
+    paths:
+    - .
+profiles:
+- name: base
+  deploy:
+    kustomize:
+      paths:
+      - manifests/base

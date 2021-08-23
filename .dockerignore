@@ -1,0 +1,7 @@
+.github/
+hack/
+build/
+
+.mergify.yml
+LICENSE
+README.md

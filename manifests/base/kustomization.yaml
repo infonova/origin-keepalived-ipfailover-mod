@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ipfailover.yaml
+
+replicas:
+  - name: "ipfailover"
+    count: 3
+
+configMapGenerator:
+  - name: ipfailover-config
+    env: config.properties
